@@ -367,8 +367,17 @@
         select.appendChild(opt);
     }
 
-    function respChange(dd){
+   function respChange(dd){
         let o= resp.find(x=>x.Id==dd.value);
-        editor.setValue(o?.code)
+        let code = o?.code
+        if(!code) return
+        editor.setValue(code)
+        try {
+            let result = eval(code)
+            document.getElementById("result").children[1].innerHTML = result
+        }
+        catch(err){
+            document.getElementById("result").children[1].innerHTML=`<span style="color:red">${err.message}<br>${err.stack}<span>`
+        }
     }
 </script>
